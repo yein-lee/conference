@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  fastapi:
+    image: conference
+    build:
+      context: ../
+    depends_on:
+      - conference-mysql
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_HOST: conference-mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: conference
+    ports:
+      - 8008:8008
+    restart: always
+    networks:
+      - backend
+
+  dualtalk-mysql:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: conference-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: conference
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../conference-mysql:/var/lib/mysql
+      - ../conference-mysql-conf:/etc/mysql/conf.d
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+    name: backend
