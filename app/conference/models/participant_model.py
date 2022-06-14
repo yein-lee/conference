@@ -1,7 +1,7 @@
 from ormar import Model, Integer, ForeignKey
-from base_model import BaseMeta
-from event_model import EventModel
-from user_model import UserModel
+from conference.models.base_model import BaseMeta
+from conference.models.event_model import EventModel
+from conference.models.user_model import UserModel
 
 
 class ParticipantModel(Model):

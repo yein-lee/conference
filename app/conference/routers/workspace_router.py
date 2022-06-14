@@ -11,8 +11,9 @@ def create_workspace(
         username: str = Depends(get_username_of_current_user),
         workspace_in: WorkspaceCreate = Body(...)
 ) -> WorkspaceWithUserId:
-    return WorkspaceService().\
-        create_workspace_and_map_user(username=username, workspace_create=workspace_in)
+    ...
+    # return WorkspaceService().\
+    #     create_workspace_and_map_user(username=username, workspace_create=workspace_in)
 
 
 @router.get("/")

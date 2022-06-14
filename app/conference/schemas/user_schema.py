@@ -4,7 +4,7 @@ from typing import Optional
 from conference.schemas.base_schema import BaseSchema
 
 
-class UserLevel(Enum, str):
+class UserLevel(str, Enum):
     owner = 'owner'
     member = 'member'
 

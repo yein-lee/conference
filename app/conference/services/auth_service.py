@@ -2,9 +2,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from pydantic import ValidationError
-
 from fastapi.security import OAuth2PasswordRequestForm
-
 from utils.http_exceptions import \
     (NotFoundException,
      InvalidPasswordException,
@@ -12,7 +10,7 @@ from utils.http_exceptions import \
      ValidationException)
 from config.settings import Settings
 from config.security import ALGORITHM, pwd_context
-from conference.models.user_model import User as UserModel
+from conference.models.user_model import UserModel
 from conference.schemas.token_schema import Token, TokenData
 from conference.repositories.user_repo import UserRepo
 
@@ -27,18 +25,18 @@ class AuthService:
         return pwd_context.hash(password)
 
     @classmethod
-    def authenticate(cls, username: str, password: str) -> Optional[UserModel]:
-        exists = UserRepo().check_exists_by_username(username=username)
+    async def authenticate(cls, username: str, password: str) -> Optional[UserModel]:
+        exists = await UserRepo().check_exists_by_username(username=username)
         if not exists:
             raise NotFoundException(detail='User')
-        user_model = UserRepo().get_user_by_username(username=username)
+        user_model = await UserRepo().get_user_by_username(username=username)
         if not cls.verify_password(password, user_model.password):
             raise InvalidPasswordException()
         return user_model
 
     @classmethod
-    def create_access_token(cls, form_data: OAuth2PasswordRequestForm) -> Token:
-        user_model = cls.authenticate(username=form_data.username, password=form_data.password)
+    async def create_access_token(cls, form_data: OAuth2PasswordRequestForm) -> Token:
+        user_model = await cls.authenticate(username=form_data.username, password=form_data.password)
         access_token_expires = timedelta(minutes=Settings().ACCESS_TOKEN_EXPIRE_MINUTES)
         expire = datetime.utcnow() + access_token_expires
         to_encode = {"exp": expire, "sub": user_model.username}

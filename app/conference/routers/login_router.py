@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/token", response_model=Token)
-def login_access_token(
+async def login_access_token(
         form_data: OAuth2PasswordRequestForm = Depends(),
 ) -> Token:
-    return AuthService().create_access_token(form_data)
+    return await AuthService().create_access_token(form_data)

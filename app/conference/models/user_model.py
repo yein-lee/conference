@@ -1,5 +1,5 @@
 from ormar import Model, Integer, String
-from base_model import BaseMeta
+from conference.models.base_model import BaseMeta
 
 
 class UserModel(Model):

@@ -1,15 +1,13 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from sqlalchemy import create_engine
-from src.conference.routers.router import api_router
-from src.config.db_session import DATABASE_URL, metadata
-from src.config.settings import Settings
+from conference.routers.router import api_router
+from config.db_session import database
+from config.settings import Settings
 
-
-engine = create_engine(DATABASE_URL)
-metadata.create_all(engine)
 
 app = FastAPI()
+
+app.state.database = database
 
 if Settings().BACKEND_CORS_ORIGINS:
     app.add_middleware(
@@ -25,13 +23,9 @@ app.include_router(api_router)
 
 @app.on_event("startup")
 async def startup() -> None:
-    database_ = app.state.database
-    if not database_.is_connected:
-        await database_.connect()
+    await database.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
-    database_ = app.state.database
-    if database_.is_connected:
-        await database_.disconnect()
+    await database.disconnect()

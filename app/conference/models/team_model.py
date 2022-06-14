@@ -1,7 +1,7 @@
 from ormar import Model, Integer, ForeignKey, Enum
-from base_model import BaseMeta
-from workspace_model import WorkspaceModel
-from user_model import UserModel
+from conference.models.base_model import BaseMeta
+from conference.models.workspace_model import WorkspaceModel
+from conference.models.user_model import UserModel
 from conference.schemas.user_schema import UserLevel
 
 

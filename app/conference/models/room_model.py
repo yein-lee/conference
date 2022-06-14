@@ -1,6 +1,6 @@
 from ormar import Model, Integer, String, ForeignKey
-from base_model import BaseMeta
-from workspace_model import WorkspaceModel
+from conference.models.base_model import BaseMeta
+from conference.models.workspace_model import WorkspaceModel
 
 
 class RoomModel(Model):

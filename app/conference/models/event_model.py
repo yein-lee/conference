@@ -1,8 +1,8 @@
 from datetime import datetime
 from ormar import Model, Integer, String, ForeignKey, Text, DateTime
-from base_model import BaseMeta
-from room_model import RoomModel
-from user_model import UserModel
+from conference.models.base_model import BaseMeta
+from conference.models.room_model import RoomModel
+from conference.models.user_model import UserModel
 
 
 class EventModel(Model):
