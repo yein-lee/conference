@@ -55,8 +55,8 @@ class WorkspaceService:
         return await WorkspaceRepo().get_users_of_workspace(workspace_id=workspace_id)
 
     @classmethod
-    async def check_is_team(cls, workspace_id: int, username: str) -> bool:
-        return await UserService().check_is_team(username=username, workspace_id=workspace_id)
+    async def check_team_exists(cls, workspace_id: int, username: str) -> bool:
+        return await UserService().check_team_exists(username=username, workspace_id=workspace_id)
 
     @classmethod
     async def check_is_owner(cls, workspace_id: int, username: str) -> bool:
@@ -64,6 +64,10 @@ class WorkspaceService:
         if user_with_team_model.teammodel.user_level is not UserLevel.owner:
             raise PermissionException()
         return True
+
+    @classmethod
+    async def check_is_owner_or_member(cls, workspace_id: int, username: str) -> bool:
+        return await UserService().check_team_exists(username=username, workspace_id=workspace_id)
 
     @classmethod
     async def accept_join_workspace(cls, team_accept: TeamAccept) -> TeamModel:

@@ -30,7 +30,7 @@ async def get_users_of_workspace(
         username: str = Depends(get_username_of_current_user),
         workspace_id: int = Query(...)
 ):
-    await WorkspaceService().check_is_team(username=username, workspace_id=workspace_id)
+    await WorkspaceService().check_team_exists(username=username, workspace_id=workspace_id)
     return await WorkspaceService().get_users_of_workspace(workspace_id=workspace_id)
 
 
