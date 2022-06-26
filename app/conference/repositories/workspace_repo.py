@@ -4,7 +4,7 @@ from conference.models.workspace_model import WorkspaceModel
 from conference.models.team_model import TeamModel
 from conference.models.user_model import UserModel
 from conference.schemas.team_schema import TeamCreate
-from conference.schemas.user_schema import User, UserLevel
+from conference.schemas.user_schema import UserLevel
 from conference.schemas.workspace_schema import WorkspaceCreate
 
 
@@ -41,5 +41,3 @@ class WorkspaceRepo:
         )
         await TeamModel(**team_create.__dict__).save()
         return workspace_model
-
-

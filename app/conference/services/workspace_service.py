@@ -26,7 +26,6 @@ class WorkspaceService:
     @classmethod
     async def create_workspace_and_map_user(cls, username: str, workspace_create: WorkspaceCreate) \
             -> WorkspaceWithOwnerId:
-        # TODO: 하단 await 병렬처리
         user_model = await UserService().get_user_by_username(username=username)
         workspace_model = await WorkspaceRepo().create_workspace_and_map_user(
             workspace_create=workspace_create, user=user_model)
