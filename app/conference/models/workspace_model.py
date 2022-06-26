@@ -7,4 +7,4 @@ class WorkspaceModel(Model):
         tablename = "workspaces"
 
     id: int = Integer(primary_key=True, index=True)
-    name: str = String(max_length=4, unique=True, index=True, nullable=False)
+    name: str = String(max_length=20, unique=True, index=True, nullable=False)

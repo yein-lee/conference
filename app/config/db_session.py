@@ -1,8 +1,6 @@
 from databases import Database
-from sqlalchemy import MetaData, create_engine
+from sqlalchemy import MetaData
 
-database = Database('sqlite:///./test.db', min_size=5, max_size=20)
+DATABASE_URL = 'sqlite:///./test.db'
+database = Database(DATABASE_URL)
 metadata = MetaData()
-
-engine = create_engine('sqlite:///./test.db')
-metadata.create_all(engine)

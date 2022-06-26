@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Body
 from conference.services.user_service import UserService
 from conference.services.mail_service import MailService
+from conference.services.workspace_service import WorkspaceService
 from conference.models.user_model import UserModel
-from conference.schemas.user_schema import User, UserCreate, UserResetPassword
+from conference.schemas.user_schema import UserCreate, UserResetPassword
 
 router = APIRouter()
 

@@ -1,6 +1,5 @@
 import string
 import random
-
 from utils.http_exceptions import DuplicationException, NotFoundException
 from conference.services.auth_service import AuthService
 from conference.models.user_model import UserModel
@@ -31,8 +30,19 @@ class UserService:
         return await UserRepo().update_user(user_model=user_model, user_update=user_update)
 
     @classmethod
-    async def get_user_by_username(cls, username: str):
+    async def get_user_by_username(cls, username: str) -> UserModel:
         exists = await UserRepo().check_exists_by_username(username=username)
         if not exists:
             raise NotFoundException(detail="username")
         return await UserRepo().get_user_by_username(username=username)
+
+    @classmethod
+    async def check_is_team(cls, username: str, workspace_id: int) -> bool:
+        exists = await UserRepo().check_team_exists(username=username, workspace_id=workspace_id)
+        if not exists:
+            raise NotFoundException(detail="team")
+        return True
+
+    @classmethod
+    async def get_user_with_team(cls, username: str, workspace_id: int):
+        await UserRepo().get_user_with_team(username=username, workspace_id=workspace_id)

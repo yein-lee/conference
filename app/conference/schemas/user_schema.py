@@ -10,6 +10,7 @@ class UserLevel(str, Enum):
 
 
 class User(BaseSchema):
+    id: int
     username: EmailStr
     name: str
     password: str

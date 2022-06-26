@@ -1,4 +1,3 @@
-from typing import Optional
 from conference.models.user_model import UserModel
 from conference.schemas.user_schema import UserCreate, UserUpdate
 
@@ -28,3 +27,15 @@ class UserRepo:
     async def check_exists_by_username(cls, username: str) -> bool:
         exists = await UserModel.objects.filter(username__exact=username).exists()
         return exists
+
+    @classmethod
+    async def check_team_exists(cls, username: str, workspace_id: int):
+        exists = await UserModel.objects.select_related(UserModel.teammodels).\
+            filter(username=username, teammodels__workspace_id=workspace_id).exists()
+        return exists
+
+    @classmethod
+    async def get_user_with_team(cls, username: str, workspace_id: int):
+        user_with_team_model = await UserModel.objects.select_related(UserModel.teammodels). \
+            filter(username=username, teammodels__workspace_id=workspace_id).get()
+        return user_with_team_model

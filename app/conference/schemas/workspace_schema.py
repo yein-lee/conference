@@ -9,7 +9,7 @@ class WorkspaceCreate(Workspace):
     ...
 
 
-class WorkspaceWithUserId(BaseSchema):
+class WorkspaceWithOwnerId(BaseSchema):
     id: int
     name: str
-    user_id: int
+    owner_id: int

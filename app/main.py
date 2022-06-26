@@ -4,6 +4,10 @@ from conference.routers.router import api_router
 from config.db_session import database
 from config.settings import Settings
 
+from config.db_session import DATABASE_URL, metadata
+from sqlalchemy import create_engine
+
+
 
 app = FastAPI()
 
@@ -29,3 +33,8 @@ async def startup() -> None:
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await database.disconnect()
+
+#
+# engine = create_engine(DATABASE_URL)
+# metadata.drop_all(engine)
+# metadata.create_all(engine)
