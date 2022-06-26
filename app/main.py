@@ -8,7 +8,6 @@ from config.db_session import DATABASE_URL, metadata
 from sqlalchemy import create_engine
 
 
-
 app = FastAPI()
 
 app.state.database = database
@@ -34,7 +33,7 @@ async def startup() -> None:
 async def shutdown() -> None:
     await database.disconnect()
 
-#
+
 # engine = create_engine(DATABASE_URL)
 # metadata.drop_all(engine)
 # metadata.create_all(engine)

@@ -37,7 +37,7 @@ class UserService:
         return await UserRepo().get_user_by_username(username=username)
 
     @classmethod
-    async def check_is_team(cls, username: str, workspace_id: int) -> bool:
+    async def check_team_exists(cls, username: str, workspace_id: int) -> bool:
         exists = await UserRepo().check_team_exists(username=username, workspace_id=workspace_id)
         if not exists:
             raise NotFoundException(detail="team")
@@ -45,4 +45,4 @@ class UserService:
 
     @classmethod
     async def get_user_with_team(cls, username: str, workspace_id: int):
-        await UserRepo().get_user_with_team(username=username, workspace_id=workspace_id)
+        return await UserRepo().get_user_with_team(username=username, workspace_id=workspace_id)
