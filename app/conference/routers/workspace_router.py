@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, Body, Query, Path
+from fastapi import APIRouter, Depends, Body, Query
 from conference.routers.auth_dep import get_username_of_current_user
 from conference.services.workspace_service import WorkspaceService
 from conference.schemas.workspace_schema import WorkspaceCreate, WorkspaceWithOwnerId
-from conference.schemas.team_schema import TeamAccept, TeamJoin
+from conference.schemas.team_schema import TeamAccept
 
 router = APIRouter(dependencies=[Depends(get_username_of_current_user)])
 
