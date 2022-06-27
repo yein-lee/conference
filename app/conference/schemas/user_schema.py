@@ -9,23 +9,16 @@ class UserLevel(str, Enum):
     member = 'member'
 
 
-class User(BaseSchema):
-    id: int
+class UserCreateDTO(BaseSchema):
     username: EmailStr
     name: str
     password: str
 
 
-class UserCreate(BaseSchema):
-    username: EmailStr
-    name: str
-    password: str
-
-
-class UserResetPassword(BaseSchema):
+class UserResetPasswordDTO(BaseSchema):
     username: EmailStr
 
 
-class UserUpdate(BaseSchema):
-    name: str = None
+class UserUpdateDTO(BaseSchema):
+    name: Optional[str] = None
     password: Optional[str] = None

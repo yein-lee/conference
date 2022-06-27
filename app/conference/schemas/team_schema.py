@@ -7,25 +7,13 @@ class Team(BaseSchema):
     user_id: int
 
 
-class TeamCreate(Team):
+class TeamCreateDTO(BaseSchema):
+    workspace_id: int
+    user_id: int
     user_level: UserLevel
     accepted: bool
 
 
-class TeamExist(BaseSchema):
+class TeamAcceptDTO(BaseSchema):
     workspace_id: int
     user_id: int
-
-
-class TeamJoin(BaseSchema):
-    workspace_id: int
-    user_id: int
-
-
-class TeamAccept(BaseSchema):
-    workspace_id: int
-    user_id: int
-
-
-class TeamReject(BaseSchema):
-    ...
