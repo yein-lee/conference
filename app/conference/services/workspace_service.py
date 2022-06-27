@@ -1,19 +1,19 @@
 from typing import List
 from conference.models.workspace_model import WorkspaceModel
 from conference.models.team_model import TeamModel
-from conference.schemas.workspace_schema import WorkspaceCreate, WorkspaceWithOwnerId
-from conference.schemas.team_schema import TeamCreate
+from conference.schemas.workspace_schema import WorkspaceCreateDTO, WorkspaceWithOwnerIdDTO
+from conference.schemas.team_schema import TeamCreateDTO
 from conference.repositories.workspace_repo import WorkspaceRepo
 from conference.services.user_service import UserService
 from conference.services.team_service import TeamService
-from conference.schemas.team_schema import TeamAccept
+from conference.schemas.team_schema import TeamAcceptDTO
 from conference.schemas.user_schema import UserLevel
 from utils.http_exceptions import DuplicationException, NotFoundException, PermissionException
 
 
 class WorkspaceService:
     @classmethod
-    async def create_workspace(cls, workspace_create: WorkspaceCreate) -> WorkspaceModel:
+    async def create_workspace(cls, workspace_create: WorkspaceCreateDTO) -> WorkspaceModel:
         exists = await WorkspaceRepo.check_workspace_exists_by_name(workspace_create=workspace_create)
         if exists:
             raise DuplicationException(detail="name")
@@ -24,12 +24,12 @@ class WorkspaceService:
         return await WorkspaceRepo.retrieve_workspace_including_name(workspace_name=workspace_name)
 
     @classmethod
-    async def create_workspace_and_map_user(cls, username: str, workspace_create: WorkspaceCreate) \
-            -> WorkspaceWithOwnerId:
+    async def create_workspace_and_map_user(cls, username: str, workspace_create: WorkspaceCreateDTO) \
+            -> WorkspaceWithOwnerIdDTO:
         user_model = await UserService.get_user_by_username(username=username)
         workspace_model = await WorkspaceRepo.create_workspace_and_map_user(
             workspace_create=workspace_create, user=user_model)
-        workspace_with_owner_id = WorkspaceWithOwnerId(
+        workspace_with_owner_id = WorkspaceWithOwnerIdDTO(
             id=workspace_model.id,
             name=workspace_model.name,
             owner_id=user_model.id
@@ -42,7 +42,7 @@ class WorkspaceService:
         if workspace_model is None:
             raise NotFoundException(detail="workspace")
         user_model = await UserService.get_user_by_username(username=username)
-        team_create_schema = TeamCreate(
+        team_create_schema = TeamCreateDTO(
             workspace_id=workspace_model.id,
             user_id=user_model.id,
             user_level=UserLevel.member,
@@ -70,9 +70,9 @@ class WorkspaceService:
         return await UserService.check_team_exists(username=username, workspace_id=workspace_id)
 
     @classmethod
-    async def accept_join_workspace(cls, team_accept: TeamAccept) -> TeamModel:
+    async def accept_join_workspace(cls, team_accept: TeamAcceptDTO) -> TeamModel:
         return await TeamService.accept_join_workspace(team_accept=team_accept)
 
     @classmethod
-    async def reject_join_workspace(cls, team_accept: TeamAccept) -> TeamModel:
+    async def reject_join_workspace(cls, team_accept: TeamAcceptDTO) -> TeamModel:
         return await TeamService.reject_join_workspace(team_accept=team_accept)

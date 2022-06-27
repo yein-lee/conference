@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Body, Path
 from conference.routers.auth_dep import get_username_of_current_user
 from conference.services.event_service import EventService
 from conference.services.workspace_service import WorkspaceService
-from conference.schemas.event_schema import EventCreate, EventUpdate
+from conference.schemas.event_schema import EventCreateDTO, EventUpdateDTO
 
 router = APIRouter(dependencies=[Depends(get_username_of_current_user)])
 
@@ -12,7 +12,7 @@ async def create_event(
         username: str = Depends(get_username_of_current_user),
         workspace_id: int = Path(...),
         room_id: int = Path(...),
-        event_in: EventCreate = Body(...)
+        event_in: EventCreateDTO = Body(...)
 ):
     await WorkspaceService.check_is_owner_or_member(workspace_id=workspace_id, username=username)
     return await EventService.create_event(event_create=event_in)
@@ -23,7 +23,7 @@ async def update_event(
         username: str = Depends(get_username_of_current_user),
         workspace_id: int = Path(...),
         room_id: int = Path(...),
-        event_in: EventUpdate = Body(...)
+        event_in: EventUpdateDTO = Body(...)
 ):
     await WorkspaceService.check_is_owner_or_member(workspace_id=workspace_id, username=username)
     return await EventService.update_event(event_update=event_in)

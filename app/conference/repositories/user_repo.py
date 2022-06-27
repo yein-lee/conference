@@ -1,15 +1,15 @@
 from conference.models.user_model import UserModel
-from conference.schemas.user_schema import UserCreate, UserUpdate
+from conference.schemas.user_schema import UserCreateDTO, UserUpdateDTO
 
 
 class UserRepo:
     @classmethod
-    async def create_user(cls, user_create: UserCreate) -> UserModel:
+    async def create_user(cls, user_create: UserCreateDTO) -> UserModel:
         user_model = await UserModel.objects.create(**user_create.__dict__)
         return user_model
 
     @classmethod
-    async def update_user(cls, user_model: UserModel, user_update: UserUpdate) -> UserModel:
+    async def update_user(cls, user_model: UserModel, user_update: UserUpdateDTO) -> UserModel:
         user_model_dict = user_model.dict()
         update_data = user_update.dict(exclude_unset=True)
         for field in user_model_dict:

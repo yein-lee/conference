@@ -1,15 +1,11 @@
 from conference.schemas.base_schema import BaseSchema
 
 
-class Workspace(BaseSchema):
+class WorkspaceCreateDTO(BaseSchema):
     name: str
 
 
-class WorkspaceCreate(Workspace):
-    ...
-
-
-class WorkspaceWithOwnerId(BaseSchema):
+class WorkspaceWithOwnerIdDTO(BaseSchema):
     id: int
     name: str
     owner_id: int

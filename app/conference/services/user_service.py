@@ -3,13 +3,13 @@ import random
 from utils.http_exceptions import DuplicationException, NotFoundException
 from conference.services.auth_service import AuthService
 from conference.models.user_model import UserModel
-from conference.schemas.user_schema import UserCreate, UserUpdate
+from conference.schemas.user_schema import UserCreateDTO, UserUpdateDTO
 from conference.repositories.user_repo import UserRepo
 
 
 class UserService:
     @classmethod
-    async def create_user(cls, user_in: UserCreate) -> UserModel:
+    async def create_user(cls, user_in: UserCreateDTO) -> UserModel:
         exists = await UserRepo.check_exists_by_username(username=user_in.username)
         if exists:
             raise DuplicationException(detail="username")
@@ -26,7 +26,7 @@ class UserService:
         letters = string.ascii_letters
         new_password = ''.join(random.choice(letters) for _ in range(8))
         new_hashed_password = AuthService().get_password_hash(new_password)
-        user_update = UserUpdate(username=username, password=new_hashed_password)
+        user_update = UserUpdateDTO(username=username, password=new_hashed_password)
         return await UserRepo.update_user(user_model=user_model, user_update=user_update)
 
     @classmethod

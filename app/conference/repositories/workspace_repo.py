@@ -3,9 +3,9 @@ from config.db_session import database
 from conference.models.workspace_model import WorkspaceModel
 from conference.models.team_model import TeamModel
 from conference.models.user_model import UserModel
-from conference.schemas.team_schema import TeamCreate
+from conference.schemas.team_schema import TeamCreateDTO
 from conference.schemas.user_schema import UserLevel
-from conference.schemas.workspace_schema import WorkspaceCreate
+from conference.schemas.workspace_schema import WorkspaceCreateDTO
 
 
 class WorkspaceRepo:
@@ -14,11 +14,11 @@ class WorkspaceRepo:
         return await WorkspaceModel.objects.get(id=workspace_id)
 
     @classmethod
-    async def check_workspace_exists_by_name(cls, workspace_create: WorkspaceCreate) -> bool:
+    async def check_workspace_exists_by_name(cls, workspace_create: WorkspaceCreateDTO) -> bool:
         return await WorkspaceModel.objects.filter(name__exact=workspace_create.name).exists()
 
     @classmethod
-    async def create_workspace(cls, workspace_create: WorkspaceCreate) -> WorkspaceModel:
+    async def create_workspace(cls, workspace_create: WorkspaceCreateDTO) -> WorkspaceModel:
         return await WorkspaceModel.objects.create(**workspace_create.__dict__)
 
     @classmethod
@@ -31,9 +31,9 @@ class WorkspaceRepo:
 
     @classmethod
     @database.transaction()
-    async def create_workspace_and_map_user(cls, workspace_create: WorkspaceCreate, user: UserModel) -> WorkspaceModel:
+    async def create_workspace_and_map_user(cls, workspace_create: WorkspaceCreateDTO, user: UserModel) -> WorkspaceModel:
         workspace_model = await WorkspaceModel(**workspace_create.__dict__).save()
-        team_create = TeamCreate(
+        team_create = TeamCreateDTO(
             workspace_id=workspace_model.id,
             user_id=user.id,
             user_level=UserLevel.owner,
