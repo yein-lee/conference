@@ -5,4 +5,4 @@ from conference.repositories.room_repo import RoomRepo
 class RoomService:
     @classmethod
     async def create_room(cls, room_in: RoomCreate):
-        return await RoomRepo().create_room(room_in=room_in)
+        return await RoomRepo.create_room(room_in=room_in)

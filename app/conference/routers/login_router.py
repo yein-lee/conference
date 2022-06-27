@@ -10,4 +10,4 @@ router = APIRouter()
 async def login_access_token(
         form_data: OAuth2PasswordRequestForm = Depends(),
 ) -> Token:
-    return await AuthService().create_access_token(form_data)
+    return await AuthService.create_access_token(form_data)

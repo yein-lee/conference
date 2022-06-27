@@ -13,5 +13,5 @@ async def create_room(
         workspace_id: int = Path(...),
         room_in: RoomCreate = Body(...)
 ):
-    await WorkspaceService().check_is_owner_or_member(workspace_id=workspace_id, username=username)
-    return await RoomService().create_room(room_in)
+    await WorkspaceService.check_is_owner_or_member(workspace_id=workspace_id, username=username)
+    return await RoomService.create_room(room_in)

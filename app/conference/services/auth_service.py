@@ -26,10 +26,10 @@ class AuthService:
 
     @classmethod
     async def authenticate(cls, username: str, password: str) -> Optional[UserModel]:
-        exists = await UserRepo().check_exists_by_username(username=username)
+        exists = await UserRepo.check_exists_by_username(username=username)
         if not exists:
             raise NotFoundException(detail='User')
-        user_model = await UserRepo().get_user_by_username(username=username)
+        user_model = await UserRepo.get_user_by_username(username=username)
         if not cls.verify_password(password, user_model.password):
             raise InvalidPasswordException()
         return user_model

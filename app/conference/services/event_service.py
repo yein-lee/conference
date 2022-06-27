@@ -13,7 +13,7 @@ class EventService:
 
     @classmethod
     async def check_event_overlaps(cls, event_overlaps: CheckEventOverlaps) -> bool:
-        overlaps = await EventRepo().check_event_overlaps(event_overlaps=event_overlaps)
+        overlaps = await EventRepo.check_event_overlaps(event_overlaps=event_overlaps)
         if overlaps:
             raise DuplicationException(detail="event")
         return True
@@ -22,4 +22,4 @@ class EventService:
     async def update_event(cls, event_update: EventUpdate) -> EventModel:
         event_overlaps = CheckEventOverlaps(**event_update.dict())
         await cls.check_event_overlaps(event_overlaps=event_overlaps)
-        return await EventRepo().update_event(event_update)
+        return await EventRepo.update_event(event_update)

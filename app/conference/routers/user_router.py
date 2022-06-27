@@ -9,13 +9,13 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserModel)
 async def register(user_in: UserCreate = Body(...)) -> UserModel:
-    user_model = await UserService().create_user(user_in=user_in)
+    user_model = await UserService.create_user(user_in=user_in)
     return user_model
 
 
 @router.post("/reset-password", response_model=UserModel)
 async def reset_password(user: UserResetPassword = Body(...)) -> UserModel:
-    complete_reset_password_user = await UserService().reset_password(username=user.username)
-    message = MailService().build_password_message(to=user.username, new_password=complete_reset_password_user.password)
-    MailService().send(message)
+    complete_reset_password_user = await UserService.reset_password(username=user.username)
+    message = MailService.build_password_message(to=user.username, new_password=complete_reset_password_user.password)
+    MailService.send(message)
     return await complete_reset_password_user

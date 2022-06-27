@@ -13,7 +13,7 @@ async def create_workspace(
         workspace_in: WorkspaceCreate = Body(...)
 ) -> WorkspaceWithOwnerId:
     ...
-    return await WorkspaceService().\
+    return await WorkspaceService.\
         create_workspace_and_map_user(username=username, workspace_create=workspace_in)
 
 
@@ -21,7 +21,7 @@ async def create_workspace(
 async def retrieve_workspace_including_name(
         workspace_name_in: str = Query(...)
 ):
-    return await WorkspaceService().\
+    return await WorkspaceService.\
         retrieve_workspace_including_name(workspace_name=workspace_name_in)
 
 
@@ -30,8 +30,8 @@ async def get_users_of_workspace(
         username: str = Depends(get_username_of_current_user),
         workspace_id: int = Query(...)
 ):
-    await WorkspaceService().check_team_exists(username=username, workspace_id=workspace_id)
-    return await WorkspaceService().get_users_of_workspace(workspace_id=workspace_id)
+    await WorkspaceService.check_team_exists(username=username, workspace_id=workspace_id)
+    return await WorkspaceService.get_users_of_workspace(workspace_id=workspace_id)
 
 
 @router.post("/join")
@@ -39,7 +39,7 @@ async def join_workspace(
         username: str = Depends(get_username_of_current_user),
         workspace_id: int = Body(...)
 ):
-    return await WorkspaceService().join_workspace(workspace_id=workspace_id, username=username)
+    return await WorkspaceService.join_workspace(workspace_id=workspace_id, username=username)
 
 
 @router.post("/join/accept")
@@ -47,8 +47,8 @@ async def accept_join_workspace(
         username: str = Depends(get_username_of_current_user),
         team_accept: TeamAccept = Body(...)
 ):
-    await WorkspaceService().check_is_owner(workspace_id=TeamAccept.workspace_id, username=username)
-    return await WorkspaceService().accept_join_workspace(team_accept=team_accept)
+    await WorkspaceService.check_is_owner(workspace_id=TeamAccept.workspace_id, username=username)
+    return await WorkspaceService.accept_join_workspace(team_accept=team_accept)
 
 
 @router.post("/join/reject")
@@ -56,5 +56,5 @@ async def accept_join_workspace(
         username: str = Depends(get_username_of_current_user),
         team_accept: TeamAccept = Body(...)
 ):
-    await WorkspaceService().check_is_owner(workspace_id=TeamAccept.workspace_id, username=username)
-    return await WorkspaceService().reject_join_workspace(team_accept=team_accept)
+    await WorkspaceService.check_is_owner(workspace_id=TeamAccept.workspace_id, username=username)
+    return await WorkspaceService.reject_join_workspace(team_accept=team_accept)
