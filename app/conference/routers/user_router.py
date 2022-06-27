@@ -9,8 +9,7 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserModel)
 async def register(user_in: UserCreate = Body(...)) -> UserModel:
-    user_model = await UserService.create_user(user_in=user_in)
-    return user_model
+    return await UserService.create_user(user_in=user_in)
 
 
 @router.post("/reset-password", response_model=UserModel)

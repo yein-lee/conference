@@ -9,7 +9,7 @@ class EventService:
     async def create_event(cls, event_create: EventCreate) -> EventModel:
         event_overlaps = CheckEventOverlaps(**event_create.dict())
         await cls.check_event_overlaps(event_overlaps=event_overlaps)
-        return await EventRepo().create_event(event_create=event_create)
+        return await EventRepo.create_event(event_create=event_create)
 
     @classmethod
     async def check_event_overlaps(cls, event_overlaps: CheckEventOverlaps) -> bool:
