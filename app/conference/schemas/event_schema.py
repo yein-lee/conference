@@ -1,3 +1,4 @@
+from typing import Optional
 from datetime import datetime
 from conference.schemas.base_schema import BaseSchema
 
@@ -30,3 +31,11 @@ class EventCreate(BaseSchema):
     create_user_id: int
     start_at: datetime
     end_at: datetime
+
+
+class EventUpdate(BaseSchema):
+    id: int
+    room_id: int
+    name: Optional[str]
+    start_at: Optional[datetime]
+    end_at: Optional[datetime]
