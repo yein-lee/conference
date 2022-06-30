@@ -17,3 +17,8 @@ class TeamCreateDTO(BaseSchema):
 class TeamAcceptDTO(BaseSchema):
     workspace_id: int
     user_id: int
+
+
+class TeamExistDTO(BaseSchema):
+    workspace_id: int
+    user_id: int
