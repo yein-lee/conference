@@ -2,6 +2,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from pydantic import ValidationError
+from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm
 from utils.http_exceptions import \
     (NotFoundException,
@@ -16,6 +17,9 @@ from conference.repositories.user_repo import UserRepo
 
 
 class AuthService:
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    ALGORITHM = "HS256"
+
     @classmethod
     def verify_password(cls, plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
