@@ -1,5 +1,5 @@
 from ormar import Model, Integer, ForeignKey, Enum, Boolean
-from conference.models.base_model import BaseMeta
+from conference.models.base_model import BaseMeta, BaseConfig
 from conference.models.workspace_model import WorkspaceModel
 from conference.models.user_model import UserModel
 from conference.schemas.user_schema import UserLevel
@@ -8,6 +8,9 @@ from conference.schemas.user_schema import UserLevel
 class TeamModel(Model):
     class Meta(BaseMeta):
         tablename = "team"
+
+    class Config(BaseConfig):
+        ...
 
     id: int = Integer(primary_key=True, index=True)
     workspace_id: WorkspaceModel = ForeignKey(WorkspaceModel)

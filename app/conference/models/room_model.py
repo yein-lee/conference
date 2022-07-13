@@ -1,11 +1,14 @@
 from ormar import Model, Integer, String, ForeignKey
-from conference.models.base_model import BaseMeta
+from conference.models.base_model import BaseMeta, BaseConfig
 from conference.models.workspace_model import WorkspaceModel
 
 
 class RoomModel(Model):
     class Meta(BaseMeta):
         tablename = "rooms"
+
+    class Config(BaseConfig):
+        ...
 
     id: int = Integer(primary_key=True, index=True)
     workspace_id: int = ForeignKey(WorkspaceModel)

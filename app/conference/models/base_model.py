@@ -7,7 +7,8 @@ class BaseMeta(ModelMeta):
     metadata = metadata
     database = database
 
-    class Config:
-        orm_mode = True
-        arbitrary_types_allowed = True
-        extra = Extra.ignore
+
+class BaseConfig:
+    orm_mode = True
+    arbitrary_types_allowed = True
+    extra = Extra.ignore
