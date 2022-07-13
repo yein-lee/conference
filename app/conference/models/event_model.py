@@ -1,6 +1,6 @@
 from datetime import datetime
 from ormar import Model, Integer, String, ForeignKey, Text, DateTime
-from conference.models.base_model import BaseMeta
+from conference.models.base_model import BaseMeta, BaseConfig
 from conference.models.room_model import RoomModel
 from conference.models.user_model import UserModel
 
@@ -8,6 +8,9 @@ from conference.models.user_model import UserModel
 class EventModel(Model):
     class Meta(BaseMeta):
         tablename = "events"
+
+    class Config(BaseConfig):
+        ...
 
     id: int = Integer(primary_key=True, index=True)
     room_id: int = ForeignKey(RoomModel)
